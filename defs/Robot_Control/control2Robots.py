@@ -35,6 +35,7 @@ placeConveyorA = 0.2, 0.3, 0.1, 2.24, 2.2, 0
 placeConveyorVia = 0.3, -0.1, 0.1, 0, 3.14, 0
 
 
+
 def move(robot, location, moveWait):
     robot.movex("movej", location, acc=a, vel=v, wait=moveWait, relative=False, threshold=None)
     if moveWait == False:

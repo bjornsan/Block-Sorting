@@ -1,9 +1,10 @@
 def isPreSorting():
-    return;
+    return
 
 def isPostSorting():
-    return;
+    return
 
 def isTransporting(type_of_block):
-    type = type_of_block;
-    return type;
+    type = type_of_block
+    return type
+
