@@ -1,8 +1,10 @@
-import 'defs/control2Robots.py';
-import '/defs/conveyorR2.py';
-import '/defs/conveyorSensors.py';
-import '/defs/detect2Objects.py';
-import '/defs/pickAndPlaceR1.py';
-import '/defs/Gripper.py';
+import defs.control2Robots;
+import defs.conveyorR2;
+import defs.conveyorSensors;
+import defs.detect2Objects;
+import defs.pickAndPlaceR1;
+import defs.Gripper;
+
+
 
 
