@@ -15,8 +15,10 @@ def locateObjects():
     page = urllib.request.urlopen('http://10.1.1.8/CmdChannel?TRIG')
     time.sleep(2)
     page = urllib.request.urlopen('http://10.1.1.8/CmdChannel?gRES')
+
     #reads output from camera
     coords = page.read().decode('utf-8')
+    
     #splits output
     x1 = coords.split(",")
     whichObject = int(x1[1])
