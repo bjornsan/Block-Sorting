@@ -1,5 +1,5 @@
 class Position:
-    # Initialize class
+    # Constructor with all parameters for positions
     def __init__(self, x, y, z, rx, ry, rz):
         self.x = x
         self.y = y    
@@ -7,6 +7,15 @@ class Position:
         self.rx = rx
         self.ry = ry    
         self.rz = rz
+    
+    # Constructor with positions only using x and y
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y    
+        self.z = 0
+        self.rx = 0
+        self.ry = 0    
+        self.rz = 0
     
     # To string representation
     def __str__(self):
@@ -49,3 +58,9 @@ class Position:
     
     def setX(self, rz):
         self.rz = rz
+
+    # Create via Position to avoid crashes
+    def viaPosition(self):
+        safeDistance = 0.15
+        viaPosZ = self.z + safeDistance
+        return Position(self.x, self.y, viaPosZ, self.rx, self.ry, self.rz)
