@@ -1,5 +1,9 @@
 class Position:
+<<<<<<< Updated upstream
     # Constructor with all parameters for positions
+=======
+    # Initialize class
+>>>>>>> Stashed changes
     def __init__(self, x, y, z, rx, ry, rz):
         self.x = x
         self.y = y    
@@ -8,6 +12,7 @@ class Position:
         self.ry = ry    
         self.rz = rz
     
+<<<<<<< Updated upstream
     # Constructor with positions only using x and y
     def __init2__(self, x, y):
         self.x = x
@@ -17,6 +22,8 @@ class Position:
         self.ry = 0    
         self.rz = 0
     
+=======
+>>>>>>> Stashed changes
     # To string representation
     def __str__(self):
         return f"{self.x} {self.y} {self.z} {self.rx} {self.ry} {self.rz}"
@@ -58,9 +65,12 @@ class Position:
     
     def setX(self, rz):
         self.rz = rz
+<<<<<<< Updated upstream
 
     # Create via Position to avoid crashes
     def viaPosition(self):
         safeDistance = 0.15
         viaPosZ = self.z + safeDistance
         return Position(self.x, self.y, viaPosZ, self.rx, self.ry, self.rz)
+=======
+>>>>>>> Stashed changes
