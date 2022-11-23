@@ -1,6 +1,7 @@
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 <<<<<<< Updated upstream
 import defs.Robot_Control.control2Robots;
@@ -14,6 +15,8 @@ import defs.states;
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 # import defs.Robot_Control.control2Robots
 # import defs.Robot_Control.conveyorR2
 # import defs.Robot_Control.conveyorSensors
@@ -23,7 +26,11 @@ import defs.states;
 # import defs.states
 import numpy as np
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+import Position as pos
+>>>>>>> Stashed changes
 =======
 import Position as pos
 >>>>>>> Stashed changes
@@ -41,6 +48,10 @@ def initialBlockPositions():
     posY = 0
     blockWidth = 0.05
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    return
+>>>>>>> Stashed changes
 =======
     return
 >>>>>>> Stashed changes
@@ -50,6 +61,10 @@ def determineBlockType(BlockType):
     elif BlockType =='cylinder': workSpace = 2
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    return
+>>>>>>> Stashed changes
 =======
     return
 >>>>>>> Stashed changes
@@ -68,10 +83,13 @@ def determineNextPosition(i, blockWidth, posX, posY):
             posY -= blockWidth
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 def storeBlockLocatation(i, posX, posY):
     np.append(gridOfBlocks, [[i, posX, posY]], axis=1)
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         return
@@ -80,6 +98,9 @@ def storeBlockLocatation(i, posX, posY):
     np.append(gridOfBlocks, [[i, posX, posY]], axis=1)
     return
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -89,10 +110,13 @@ def createGridOfBlocks(BlockType, totalNumberOfBlocksStored):
     initialBlockPositions()
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
     
 >>>>>>> Stashed changes
        
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     for i in range(totalNumberOfBlocksStored):
@@ -100,6 +124,7 @@ def createGridOfBlocks(BlockType, totalNumberOfBlocksStored):
         determineNextPosition(i, blockWidth, posX, posY)
     return gridOfBlocks
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
 print(createGridOfBlocks('cube', 10))
@@ -113,6 +138,8 @@ print(createGridOfBlocks('cube', 10))
 >>>>>>> Stashed changes
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> Stashed changes
 posZ = 0 
 rotX = 0 
 rotY = 0 
@@ -127,5 +154,8 @@ print (position_viaPosition.str())
 
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
