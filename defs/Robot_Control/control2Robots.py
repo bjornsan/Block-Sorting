@@ -2,7 +2,7 @@ import urx
 import time
 from threading import Thread
 import sys
-from Gripper import *
+import Gripper
 
 #set robot ip adresses
 r1="10.1.1.6"
