@@ -29,6 +29,20 @@ def move_block_to_final_dest_from_conveyor(side):
     # Move to an available spot in the final destination
     # Drop of the block
     # Move back to ready position
+
+def pre_sort_one_block(side):
+    # move arm to a unsorted block
+    # pick up the block
+    # move to a pre-sort spot
+    # put the block down
+    # move arm to ready position
+
+def post_sort_one_block(side):
+    # move arm to a unsorted block (that has been placed somewhere after coming form the belt)
+    # pick up the block
+    # move to an availible final postion
+    # put the block down
+    # move arm to ready position
     
 # the sensor distance when there are no blocks at the sensor
 max_distance = 100
@@ -37,19 +51,23 @@ def block_at_sensor(sensor):
 
 # Setup the arms in the correct positions dependent on the conveyor belt direction
 def prepare_to_move(from_side, to_side, with_sorting):
+    conveyor_directon = to_side
+
     set_status(to_side, "waiting_for_conveyor")
     if with_sorting:
         move_to_position(to_side, "ready")
-    else 
+    else:
         move_to_position(to_side, "pickup")
-            
-    set_status(from_side, "move_blocks_to_belt")
+    
+    if with_sorting:
+        set_status(from_side, "pre_sort")
+    else:
+        set_status(from_side, "move_blocks_to_belt")
     move_to_position(from_side, "ready")
 
 # Move a block the conveyor belt if there are more blocks to be sent from this side
 # Else, wait for the belt
 def send_block(from_side, to_side, blocks_to_be_sent):
-    conveyor_directon = to_side
     conveyor_speed = 1
 
     if blocks_to_be_sent > 0:
@@ -74,6 +92,39 @@ def prepare_to_recive_block(pickup_side):
     set_status(pickup_side, "waiting_for_vonveyor")
     move_to_position(pickup_side, "pickup")
     conveyor_speed = 1
+
+def handle_sorting(
+    side, 
+    status,
+    not_pre_sorted_count,
+    pre_sorted_count,
+    to_final_dest_count
+    ):
+
+    if status is "pre_sort":
+        # Sender side
+        if not_pre_sorted_count < pre_sort_size and not_pre_sorted_count > 0:
+            pre_sort_one_block(side)
+        else:
+            set_status(side, "move_blocks_to_belt")
+            
+        # All blocks in the pre sort has been sent
+        if status is "idle": 
+            if pre_sorted_count < pre_sort_size and not_pre_sorted_count > 0:
+                pre_sort_one_block(side)
+            elif (not_pre_sorted_count == 0 or pre_sorted_count == pre_sort_size) and to_final_dest_count > 0:
+                post_sort_one_block(side)
+            else:
+                move_to_position(side, "ready")
+
+    else:
+        # Reciver side
+        if ready_to_be_sent_from_l < pre_sort_size and to_be_sent_from_l > 0:
+            pre_sort_one_block("left")
+        elif (to_be_sent_from_l == 0 or ready_to_be_sent_from_l == pre_sort_size) and to_final_dest_l > 0:
+            post_sort_one_block("left")
+        else:
+            move_to_position("left", "pickup")
 
 while True:
 
@@ -113,16 +164,15 @@ while True:
             prepare_to_move("left", "right", with_sorting)
     
     if with_sorting:
-        if status_arm_l is "idle" or status_arm_l is "waiting_for_conveyor":
-            pre_sort("left")
-            
+        handle_sorting("right", status_arm_r, to_be_sent_from_r, ready_to_be_sent_from_r, to_final_dest_r)
+        handle_sorting("left", status_arm_l, to_be_sent_from_l, ready_to_be_sent_from_l, to_final_dest_l)
 
     # Handle sending blocks to the conveyor on the left side
-    if status_arm_l is "move_blocks_to_belt" and pysical_arm_position_l is "ready_position":
+    if status_arm_l is "move_blocks_to_belt" and pysical_arm_position_l is "ready":
         send_block("left", "right", ready_to_be_sent_from_l)
     
     # Handle sending blocks to the conveyor on the right side
-    if status_arm_r is "move_blocks_to_belt" and pysical_arm_position_r is "ready_position":
+    if status_arm_r is "move_blocks_to_belt" and pysical_arm_position_r is "ready":
         send_block("right", "left", ready_to_be_sent_from_r)
 
     # Handle recieving blocks on the left side
