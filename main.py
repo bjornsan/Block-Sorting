@@ -54,15 +54,9 @@ def prepare_to_move(from_side, to_side, with_sorting):
     conveyor_directon = to_side
 
     set_status(to_side, "waiting_for_conveyor")
-    if with_sorting:
-        move_to_position(to_side, "ready")
-    else:
-        move_to_position(to_side, "pickup")
+    move_to_position(to_side, "ready" if with_sorting else "pickup")
     
-    if with_sorting:
-        set_status(from_side, "pre_sort")
-    else:
-        set_status(from_side, "move_blocks_to_belt")
+    set_status(from_side, "pre_sort" if with_sorting else "move_blocks_to_belt")
     move_to_position(from_side, "ready")
 
 # Move a block the conveyor belt if there are more blocks to be sent from this side
@@ -101,16 +95,19 @@ def handle_sorting(
     to_final_dest_count
     ):
 
+    # If it can pre sort, pre sort
     if not_pre_sorted_count < pre_sort_size and not_pre_sorted_count > 0:
         pre_sort_one_block(side)
+    # If done cannot pre sort any more, prepare to move blocks to belt if is sender
     elif status is "pre_sort"
         set_status(side, "move_blocks_to_belt")
+        return
 
+    # Post sort if no other task is available
     if (not_pre_sorted_count == 0 or pre_sorted_count == pre_sort_size) and to_final_dest_count > 0:
         post_sort_one_block(side)
 
 while True:
-
     # --------------------
     # Get all the sensor and and positional data:
 
