@@ -101,30 +101,13 @@ def handle_sorting(
     to_final_dest_count
     ):
 
-    if status is "pre_sort":
-        # Sender side
-        if not_pre_sorted_count < pre_sort_size and not_pre_sorted_count > 0:
-            pre_sort_one_block(side)
-        else:
-            set_status(side, "move_blocks_to_belt")
-            
-        # All blocks in the pre sort has been sent
-        if status is "idle": 
-            if pre_sorted_count < pre_sort_size and not_pre_sorted_count > 0:
-                pre_sort_one_block(side)
-            elif (not_pre_sorted_count == 0 or pre_sorted_count == pre_sort_size) and to_final_dest_count > 0:
-                post_sort_one_block(side)
-            else:
-                move_to_position(side, "ready")
+    if not_pre_sorted_count < pre_sort_size and not_pre_sorted_count > 0:
+        pre_sort_one_block(side)
+    elif status is "pre_sort"
+        set_status(side, "move_blocks_to_belt")
 
-    else:
-        # Reciver side
-        if ready_to_be_sent_from_l < pre_sort_size and to_be_sent_from_l > 0:
-            pre_sort_one_block("left")
-        elif (to_be_sent_from_l == 0 or ready_to_be_sent_from_l == pre_sort_size) and to_final_dest_l > 0:
-            post_sort_one_block("left")
-        else:
-            move_to_position("left", "pickup")
+    if (not_pre_sorted_count == 0 or pre_sorted_count == pre_sort_size) and to_final_dest_count > 0:
+        post_sort_one_block(side)
 
 while True:
 
@@ -162,10 +145,6 @@ while True:
 
         elif ready_to_be_sent_from_r < ready_to_be_sent_from_l or to_be_sent_from_r < to_be_sent_from_l:
             prepare_to_move("left", "right", with_sorting)
-    
-    if with_sorting:
-        handle_sorting("right", status_arm_r, to_be_sent_from_r, ready_to_be_sent_from_r, to_final_dest_r)
-        handle_sorting("left", status_arm_l, to_be_sent_from_l, ready_to_be_sent_from_l, to_final_dest_l)
 
     # Handle sending blocks to the conveyor on the left side
     if status_arm_l is "move_blocks_to_belt" and pysical_arm_position_l is "ready":
@@ -190,6 +169,13 @@ while True:
     # Move back to pickup location when done with the last pickup
     if status_arm_l is "move_block_to_final_dest" and pysical_arm_position_l is "ready":
         prepare_to_recive_block("right")
+    
+    # If there is nothing else to do, sort!
+    if with_sorting:
+        if status_arm_r is in ["pre_sort", "idle", "waiting_for_vonveyor"]:
+            handle_sorting("right", status_arm_r, to_be_sent_from_r, ready_to_be_sent_from_r, to_final_dest_r)
+        if status_arm_l is in ["pre_sort", "idle", "waiting_for_vonveyor"]:
+            handle_sorting("left", status_arm_l, to_be_sent_from_l, ready_to_be_sent_from_l, to_final_dest_l)
 
     
 
