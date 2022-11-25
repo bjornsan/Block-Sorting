@@ -11,7 +11,7 @@ class Position:
     
     # To string representation
     def __str__(self):
-        return f"{self.x} {self.y} {self.z} {self.rx} {self.ry} {self.rz}"
+        return f"{self.x}, {self.y}, {self.z}, {self.rx}, {self.ry}, {self.rz}"
     
     # Getters
     def getX(self):
