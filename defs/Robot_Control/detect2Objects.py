@@ -68,11 +68,11 @@ def switchObject():
         time.sleep(3)
     time.sleep(1)
     print("object switched")
-    
-    
-#while switchCounter < 3:
-#    locateObjects()
-#    switchObject()
+
+def checkLeftCamera(): 
+    while switchCounter < 3:
+        locateObjectsLeft()
+        switchObject()
 
 
 
