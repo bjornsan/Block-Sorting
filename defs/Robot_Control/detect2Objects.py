@@ -35,6 +35,7 @@ def handleCameraOutput(side, page):
                 locateObjectsLeft()
             if side == "right": 
                 locateObjectsRight()
+            return x, y
         
 
 def locateObjectsLeft():
