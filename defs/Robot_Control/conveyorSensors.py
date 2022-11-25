@@ -1,4 +1,6 @@
 import requests
+import asyncio
+import time
 
 
 sensorLeft = 4
@@ -15,6 +17,7 @@ def checkConveyorSensor(sensor):
         r = requests.post('http://10.1.1.9', json={"code":"request","cid":1,"adr":"/getdatamulti","data":{"datatosend":["/iolinkmaster/port[2]/iolinkdevice/pdin"]}})
     if sensor == sensorRight: 
         r = requests.post('http://10.1.1.9', json={"code":"request","cid":1,"adr":"/getdatamulti","data":{"datatosend":["/iolinkmaster/port[1]/iolinkdevice/pdin"]}})
+    time.sleep(0.1)
     res = r.json()
     res1 = res['data']
     data = str(res1)
@@ -27,8 +30,12 @@ def checkConveyorSensor(sensor):
         p = ("out of range")
     
     print('Checking sensor #', sensor, ': ', p)
-    if p < 50:
+    if p < int(2):
         print("Object found")
+    return p
+
+
+
 
 
 def checkConveyorSensors():
@@ -36,3 +43,4 @@ def checkConveyorSensors():
     checkConveyorSensor(sensorMiddleLeft)
     checkConveyorSensor(sensorMiddleRight)
     checkConveyorSensor(sensorRight)
+
