@@ -74,5 +74,9 @@ def checkLeftCamera():
         locateObjectsLeft()
         switchObject()
 
+def checkRightCamera(): 
+    while switchCounter < 3:
+        locateObjectsRight()
+        switchObject()
 
 
