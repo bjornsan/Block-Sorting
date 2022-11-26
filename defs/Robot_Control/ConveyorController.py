@@ -29,10 +29,20 @@ def checkSensorReadingsRight():
             conveyor.stopConveyor()
             
 
-global count
-count = 0
-while count < 8:
-    count += 1
-    checkSensorReadingsRight()
-    time.sleep(0.3)
+def readRightSide():
+    count = 0
+    while count < 8:
+        count += 1
+        checkSensorReadingsRight()
+        time.sleep(0.3)
 
+def readLeftSide():
+    count = 0
+    while count < 8:
+        count += 1
+        checkSensorReadingsLeft()
+        time.sleep(0.3)
+
+#
+readLeftSide()
+#readRightSide()

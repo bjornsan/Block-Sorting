@@ -20,7 +20,7 @@ def handleCameraOutput(side, page):
     # check if no block
     if len(x1) < 2:
         # No block found
-        continue
+        return
     else:
         # NO. Blocks > 0
         if objectLocated == 1:
@@ -81,3 +81,4 @@ def checkRightCamera():
         switchObject()
 
 
+checkLeftCamera()

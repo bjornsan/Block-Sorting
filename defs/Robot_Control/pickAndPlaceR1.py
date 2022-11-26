@@ -8,7 +8,7 @@ import time
 r1="10.1.1.6"
 
 #connects to robot
-rob = urx.Robot(r1, use_rt=True, urFirm=5.1)
+rob = urx.Robot(r1)#, use_rt=True, urFirm=5.1)
 
 #robot velocity and acceleration
 v = 0.8
