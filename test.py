@@ -1,79 +1,12 @@
-import urx
-from defs.Robot_Control.Gripper import *
-import urllib.request
+import socket
+
 import time
-#set robot ip adress
-#this is the left robot
-r1="10.1.1.5"
-#connects to robot
-rob = urx.Robot(r1, use_rt=True, urFirm=5.1)
-#robot velocity and acceleration
-v = 0.8
-a = 0.5
-#variables
-#these x and y values are the distance from the robot base to the middle of the camera
-x = float(25/1000)
-y = float(-385/1000)
-lasty = y
-lastx = x
-objectLocated = 0
-objectCount = 0
-#positions x, y, z, rx, ry, rz
-clearCamera = 0.25, -0.22, 0.20, 0, 3.14, 0
-placeObject = 0.3, -0.25, 0.15, 0, 3.14, 0
-#function for moving robot using moveJ
-def move(robot, location, moveWait):
-    #moves robot
-    robot.movex("movej", location, acc=a, vel=v, wait=moveWait, relative=False, 
-threshold=None)
-    if moveWait == False:
-        time.sleep(0.1)
-#Uses camera to locate objects
-def locateObjects():
-    global x, y, objectLocated, switchCounter
-    page = urllib.request.urlopen('http://10.1.1.8/CmdChannel?TRIG')
-    time.sleep(2)
-    page = urllib.request.urlopen('http://10.1.1.8/CmdChannel?gRES')
-    #reads output from camera
-    coords = page.read().decode('utf-8')
-    #splits output
-    x1 = coords.split(",")
-    objectLocated = int(x1[2])
-    if objectLocated == 1:
-        switchCounter = 0
-        y = x1[4]
-        x = x1[3]
-        x = (float(x) + 25) /1000
-        y = (float(y) - 385) /1000
-        time.sleep(3)
-        print(x, y)
 
-#Moves robot to coordinates set by camera
-def pickObject():
-    global x, y, lastx, lasty, objectCount, placeObject
-    objectCount+= 1
-    lastx = x
-    lasty = y
-    overPickPos = x, y, 0.1, 0.0, 3.14, 0.0
-    pickPos = x, y, 0.005, 0.0, 3.14, 0.0
-    rob.send_program(rq_open())
-    time.sleep(0.1)
-    move(rob, overPickPos, True)
-    move(rob, pickPos, True)
+HOST = "10.1.1.6"
+PORT = 30002
 
-    #closes gripper
-    rob.send_program(rq_close())
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    #sleep to allow gripper to close fully before program resumes
-    time.sleep(0.6)
-    move(rob, overPickPos, True)
-    move(rob, placeObject, True)
-    rob.send_program(rq_open())
-    time.sleep(0.2)
-
-
-#sets robot tcp, the distance from robot flange to gripper tips. 
-rob.set_tcp((0,0,0.16,0,0,0))
-time.sleep(2)
-#rob.movej(rob, clearCamera, True)
-
+s.connect((HOST, PORT))
+s.send(("set_digital_out(1,False)"+"\n").encode('utf8'))
+s.send(("movej([0.1,0.1,0.1,0,3.14,0])"+"\n").encode('utf8'))
